@@ -6,6 +6,7 @@ pub struct Config {
     pub jwt_secret:   String,
     pub jwt_ttl_secs: i64,
     pub bind_addr:    String,
+    pub frotend_path: String
 }
 
 impl Config {
@@ -17,6 +18,7 @@ impl Config {
                 .and_then(|v| v.parse().ok()).unwrap_or(86_400),
             bind_addr:    std::env::var("BIND_ADDR")
                 .unwrap_or_else(|_| "0.0.0.0:3000".into()),
+            frotend_path: std::env::var("FRONTEND_PATH").unwrap_or(String::from("dist"))
         })
     }
 }

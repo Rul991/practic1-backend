@@ -129,7 +129,7 @@ pub async fn create_survey(
     for q in &body.questions {
         let qid: i64 = sqlx::query_scalar(
             "INSERT INTO survey_questions (survey_id, text, type, is_required, position) \
-             VALUES ($1, $2, $3, $4, $5) RETURNING id")
+             VALUES ($1, $2, $3::question_type, $4, $5) RETURNING id")
             .bind(survey_id).bind(&q.text).bind(qtype_str(q.qtype))
             .bind(q.is_required).bind(q.position)
             .fetch_one(&mut *tx).await?;

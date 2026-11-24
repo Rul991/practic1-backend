@@ -1,7 +1,6 @@
 use chrono::{DateTime, Utc};
 use serde::{Deserialize, Serialize};
 
-// ---------- Auth ----------
 #[derive(Deserialize)]
 pub struct RegisterRequest { pub login: String, pub password: String, pub name: String }
 
@@ -17,7 +16,6 @@ pub struct UserDto {
 #[derive(Serialize)]
 pub struct LoginResponse { pub token: String, pub expires_at: DateTime<Utc> }
 
-// ---------- Surveys ----------
 #[derive(Deserialize, Serialize, Clone, Copy, PartialEq, Eq)]
 #[serde(rename_all = "snake_case")]
 pub enum QuestionType { SingleChoice, MultipleChoice, Text, Number, Boolean }
@@ -58,7 +56,6 @@ pub struct OptionDto { pub id: i64, pub text: String, pub position: i32 }
 pub struct QuestionDto {
     pub id: i64, pub text: String, pub r#type: QuestionType,
     pub is_required: bool, pub position: i32,
-    #[serde(skip_serializing_if = "Vec::is_empty")]
     pub options: Vec<OptionDto>,
 }
 
@@ -81,7 +78,6 @@ pub struct SurveySummaryDto {
 #[derive(Serialize)]
 pub struct SurveyListResponse { pub items: Vec<SurveySummaryDto> }
 
-// ---------- Responses ----------
 #[derive(Deserialize)]
 pub struct NewAnswer {
     pub question_id: i64,
