@@ -94,11 +94,30 @@ pub struct SubmitResponseRequest { pub answers: Vec<NewAnswer> }
 pub struct SubmitResponseReply { pub response_id: i64, pub created_at: DateTime<Utc> }
 
 #[derive(Serialize)]
+pub struct AnswerDetailDto {
+    pub question_id: i64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub question_text: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub option_id: Option<i64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub option_text: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub text_value: Option<String>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub numeric_value: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub bool_value: Option<bool>,
+}
+
+#[derive(Serialize)]
 pub struct ResponseListItem {
     pub response_id: i64,
     pub created_at:  DateTime<Utc>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub user: Option<UserBriefDto>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub answers: Option<Vec<AnswerDetailDto>>,
 }
 
 #[derive(Serialize)]
