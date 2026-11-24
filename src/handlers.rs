@@ -633,16 +633,16 @@ pub async fn list_responses(
     if !response_ids.is_empty() {
         let answer_rows = sqlx::query(
             "SELECT a.response_id, \
-                    a.question_id, \
-                    q.text AS question_text, \
-                    a.option_id, \
-                    o.text AS option_text, \
-                    a.text_value, a.numeric_value, a.bool_value \
-             FROM answers a \
-             JOIN survey_questions q ON q.id = a.question_id \
-             LEFT JOIN question_options o ON o.id = a.option_id \
-             WHERE a.response_id = ANY($1) \
-             ORDER BY a.response_id, q.position, a.id",
+            a.question_id, \
+            q.text AS question_text, \
+            a.option_id, \
+            o.text AS option_text, \
+            a.text_value, a.numeric_value::float8 AS numeric_value, a.bool_value \
+            FROM answers a \
+            JOIN survey_questions q ON q.id = a.question_id \
+            LEFT JOIN question_options o ON o.id = a.option_id \
+            WHERE a.response_id = ANY($1) \
+            ORDER BY a.response_id, q.position, a.id",
         )
         .bind(&response_ids)
         .fetch_all(&state.db)
